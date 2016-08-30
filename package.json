@@ -1,6 +1,6 @@
 {
   "name": "react-with-styles-interface-aphrodite",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "react-with-styles interface for Aphrodite",
   "main": "lib/aphroditeInterface.js",
   "directories": {
@@ -14,7 +14,7 @@
     "lint": "eslint .",
     "mocha": "mocha --compilers js:babel-register,jsx:babel-register --require airbnb-js-shims --recursive test",
     "postversion": "git commit package.json CHANGELOG.md -m \"Version $npm_package_version\" && npm run tag && git push && git push --tags && npm publish",
-    "prepublish": "in-publish && safe-publish-latest && npm run build || not-in-publish",
+    "prepublish": "in-publish && npm run build || not-in-publish",
     "pretest": "npm run --silent lint",
     "preversion": "npm run test && npm run check-changelog && npm run check-only-changelog-changed",
     "tag": "git tag v$npm_package_version",
