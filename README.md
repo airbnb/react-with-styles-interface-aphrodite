@@ -8,7 +8,7 @@
 
 [![npm badge][npm-badge-png]][package-url]
 
-Interface for [react-with-styles][react-with-styles] and [Aphrodite][aphrodite].
+Interface to use [react-with-styles][react-with-styles] with [Aphrodite][aphrodite].
 
 [package-url]: https://npmjs.org/package/react-with-styles-interface-aphrodite
 [npm-version-svg]: http://versionbadg.es/airbnb/react-with-styles-interface-aphrodite.svg
