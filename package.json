@@ -58,7 +58,6 @@
   },
   "dependencies": {
     "array-flatten": "^2.1.0",
-    "has": "^1.0.1",
-    "inline-style-prefixer": "^2.0.0"
+    "has": "^1.0.1"
   }
 }
