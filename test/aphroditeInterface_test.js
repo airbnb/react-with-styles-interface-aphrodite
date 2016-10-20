@@ -104,6 +104,25 @@ describe('aphroditeInterface', () => {
         });
     });
 
+    it('prefixes inline styles', () => {
+      const style = {
+        display: 'flex',
+      };
+
+      expect(aphroditeInterface.resolve([style]))
+        .to.eql({
+          style: {
+            display: [
+              '-webkit-box',
+              '-moz-box',
+              '-ms-flexbox',
+              '-webkit-flex',
+              'flex',
+            ],
+          },
+        });
+    });
+
     it('handles a mix of Aphrodite and inline styles', () => {
       const styles = aphroditeInterface.create({
         foo: {

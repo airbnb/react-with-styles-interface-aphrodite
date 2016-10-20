@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite';
 import { flushToStyleTag } from 'aphrodite/lib/inject';
 import { from as flatten } from 'array-flatten';
 import has from 'has';
+import prefixAll from 'inline-style-prefixer/static';
 
 // This function takes the array of styles and separates them into styles that
 // are handled by Aphrodite and inline styles.
@@ -68,7 +69,7 @@ export default {
       result.className = css(...aphroditeStyles);
     }
     if (hasInlineStyles) {
-      result.style = inlineStyles;
+      result.style = prefixAll(inlineStyles);
     }
     return result;
   },
