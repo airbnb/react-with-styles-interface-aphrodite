@@ -17,7 +17,7 @@ function separateStyles(stylesArray) {
   // This is run on potentially every node in the tree when rendering, where
   // performance is critical. Normally we would prefer using `forEach`, but
   // old-fashioned for loops are faster so that's what we have chosen here.
-  for (let i = 0; i < stylesArray.length; i++) {
+  for (let i = 0; i < stylesArray.length; i++) { // eslint-disable-line no-plusplus
     const style = stylesArray[i];
 
     // If this  style is falsey, we just want to disregard it. This allows for
