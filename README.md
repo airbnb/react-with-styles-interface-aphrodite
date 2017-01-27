@@ -29,12 +29,12 @@ Interface to use [react-with-styles][react-with-styles] with [Aphrodite][aphrodi
 
 ## Import
 
-```
+```js
 import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 ```
 
 or when you need to [disable `!important`](https://github.com/Khan/aphrodite#disabling-important):
 
-```
+```js
 import aphroditeInterface from 'react-with-styles-interface-aphrodite/no-important';
 ```
