@@ -1,3 +1,8 @@
+## v1.2.0
+
+- Add support for using Aphrodite in no-important mode, which disables adding
+  `!important` to every style.
+
 ## v1.1.1
 
 - This release reverts all of the changes from 1.1.0, so inline styles no longer
