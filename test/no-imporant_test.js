@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 import React from 'react';
-import { css, StyleSheetServer, StyleSheetTestUtils } from 'aphrodite';
+import { css, StyleSheetServer, StyleSheetTestUtils } from 'aphrodite/no-important';
 import ReactDOMServer from 'react-dom/server';
-import aphroditeInterface from '../src/aphroditeInterface';
+import aphroditeInterface from '../src/no-important';
 
-describe('aphroditeInterface', () => {
+describe('no-important', () => {
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
@@ -18,7 +18,7 @@ describe('aphroditeInterface', () => {
     expect(typeof aphroditeInterface.resolve).to.equal('function');
   });
 
-  it('uses !important', () => {
+  it('does not use !important', () => {
     const styles = aphroditeInterface.create({
       foo: {
         color: 'red',
@@ -27,6 +27,6 @@ describe('aphroditeInterface', () => {
     const result = StyleSheetServer.renderStatic(() => (
       ReactDOMServer.renderToString(React.createElement('div', { className: css(styles.foo) }))
     ));
-    expect(result.css.content.includes('!important')).to.equal(true);
+    expect(result.css.content.includes('!important')).to.equal(false);
   });
 });

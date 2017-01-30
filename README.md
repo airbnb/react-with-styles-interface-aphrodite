@@ -26,3 +26,15 @@ Interface to use [react-with-styles][react-with-styles] with [Aphrodite][aphrodi
 
 [react-with-styles]: https://github.com/airbnb/react-with-styles
 [aphrodite]: https://github.com/khan/aphrodite
+
+## Import
+
+```js
+import aphroditeInterface from 'react-with-styles-interface-aphrodite';
+```
+
+or when you need to [disable `!important`](https://github.com/Khan/aphrodite#disabling-important):
+
+```js
+import aphroditeInterface from 'react-with-styles-interface-aphrodite/no-important';
+```
