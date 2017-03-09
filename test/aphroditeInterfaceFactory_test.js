@@ -25,7 +25,7 @@ describe('aphroditeInterfaceFactory', () => {
           _definition: {
             color: 'red',
           },
-          _name: 'foo_im3wl1',
+          _name: 'foo_137u7ef',
         },
       });
     });
@@ -40,7 +40,7 @@ describe('aphroditeInterfaceFactory', () => {
       });
 
       expect(aphroditeInterface.resolve([styles.foo]))
-        .to.eql({ className: 'foo_im3wl1' });
+        .to.eql({ className: 'foo_137u7ef' });
     });
 
     it('turns multiple processed styles into a className', () => {
@@ -55,7 +55,7 @@ describe('aphroditeInterfaceFactory', () => {
       });
 
       expect(aphroditeInterface.resolve([styles.foo, styles.bar]))
-        .to.eql({ className: 'foo_im3wl1-o_O-bar_cm9r68' });
+        .to.eql({ className: 'foo_137u7ef-o_O-bar_36rlri' });
     });
 
     it('handles an object with inline styles', () => {
@@ -119,7 +119,7 @@ describe('aphroditeInterfaceFactory', () => {
 
       expect(aphroditeInterface.resolve([styles.foo, style]))
         .to.eql({
-          className: 'foo_im3wl1',
+          className: 'foo_137u7ef',
           style: {
             display: 'inline-block',
           },
@@ -143,7 +143,7 @@ describe('aphroditeInterfaceFactory', () => {
 
       expect(aphroditeInterface.resolve([[styles.foo], [[styleA, styleB]]]))
         .to.eql({
-          className: 'foo_im3wl1',
+          className: 'foo_137u7ef',
           style: {
             display: 'inline-block',
             padding: 1,
