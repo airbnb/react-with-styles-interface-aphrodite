@@ -38,3 +38,9 @@ or when you need to [disable `!important`](https://github.com/Khan/aphrodite#dis
 ```js
 import aphroditeInterface from 'react-with-styles-interface-aphrodite/no-important';
 ```
+
+## Built-in RTL support
+
+`react-with-styles-interface-aphrodite` now has built-in RTL support. Specifically, it uses [rtl-css-js](https://github.com/kentcdodds/rtl-css-js) to automatically flip styles (`margin`, `padding`, `float`, `textAlign`, etc.) in a `dir="rtl"` context. We recommend using [react-with-direction](https://github.com/airbnb/react-with-direction)'s `DirectionProvider` at your top-level node to achieve best results.
+
+One caveat for this implementation is that it may cause some trouble when relying on inline styles explicitly. Due to some details of what is known at the time of style creation/resolution, inline styles are converted to classnames when there is a flippable style attribute. If you do not want this behavior or if this behavior breaks your usage, `react-with-styles-interface-aphrodite` exports a `resolveNoRTL` method which is exported by `react-with-styles` as `cssNoRTL`. This method matches the behavior in past versions (no automatic style flipping).

@@ -1,6 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import { flushToStyleTag } from 'aphrodite/lib/inject';
+import { hashObject } from 'aphrodite/lib/util';
 import { from as flatten } from 'array-flatten';
 import has from 'has';
+
+import { RTL_SELECTOR } from './withRTLExtension';
+import generateRTLStyles from './generateRTLStyles';
 
 // This function takes the array of styles and separates them into styles that
 // are handled by Aphrodite and inline styles.
@@ -51,9 +56,71 @@ export default ({ StyleSheet, css }/* aphrodite */) => ({
   },
 
   // Styles is an array of properties returned by `create()`, a POJO, or an
-  // array thereof. POJOs are treated as inline styles.
+  // array thereof. POJOs are treated as inline styles. The default resolve
+  // method makes an effort to flip CSS styles for an RTL context.
   // This function returns an object to be spread onto an element.
   resolve(styles) {
+    const flattenedStyles = flatten(styles);
+
+    const {
+      aphroditeStyles,
+      hasInlineStyles,
+      inlineStyles,
+    } = separateStyles(flattenedStyles);
+
+    const stylesWithDirection = aphroditeStyles.map((stylesObj) => {
+      let definition = stylesObj._definition;
+      const rtlStyles = generateRTLStyles(definition);
+
+      if (rtlStyles) {
+        // This applies the rtlStyles whenever dir="rtl" is set. This is because
+        // the interface knows nothing about the current directional context.
+        definition = { ...definition, [RTL_SELECTOR]: rtlStyles };
+      }
+
+      return {
+        ...stylesObj,
+        _definition: definition,
+      };
+    });
+
+    const result = {};
+    if (hasInlineStyles) {
+      const inlineRTLStyles = generateRTLStyles(inlineStyles);
+
+      if (inlineRTLStyles) {
+        // Because we know nothing about the current directional context, there
+        // is no way to determine whether or not the inline styles should be
+        // flipped. As a result, if there are inline styles to be flipped, we
+        // do so by converting them to classnames and providing styles in both
+        // an RTL and an LTR context.
+        // This may not work for all situations! For instance, when using inline
+        // styles to animate a component with react-motion or animated.js,
+        // converting to classes is likely to be way too slow. For those and
+        // other edge-cases, consumers should rely on the resolveNoRTL method
+        // instead.
+        const stylesDef = Object.assign(inlineStyles, { [RTL_SELECTOR]: inlineRTLStyles });
+        stylesWithDirection.push({
+          _name: `inlineStyles_${hashObject(stylesDef)}`,
+          _definition: stylesDef,
+        });
+      } else {
+        result.style = inlineStyles;
+      }
+    }
+
+    if (stylesWithDirection.length > 0) {
+      result.className = css(...stylesWithDirection);
+    }
+
+    return result;
+  },
+
+  // Styles is an array of properties returned by `create()`, a POJO, or an
+  // array thereof. POJOs are treated as inline styles. This version of the
+  // resolve function explicitly does no work to flip styles for an RTL context.
+  // This function returns an object to be spread onto an element.
+  resolveNoRTL(styles) {
     const flattenedStyles = flatten(styles);
 
     const {
@@ -66,9 +133,11 @@ export default ({ StyleSheet, css }/* aphrodite */) => ({
     if (aphroditeStyles.length > 0) {
       result.className = css(...aphroditeStyles);
     }
+
     if (hasInlineStyles) {
       result.style = inlineStyles;
     }
+
     return result;
   },
 
