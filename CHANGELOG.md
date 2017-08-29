@@ -1,3 +1,6 @@
+## v2.0.0
+- Add RTL support in the resolve method
+
 ## v1.2.0
 
 - Add support for using Aphrodite in no-important mode, which disables adding
