@@ -42,6 +42,7 @@
     "airbnb-js-shims": "^1.0.1",
     "aphrodite": "^1.2.0",
     "babel-cli": "^6.18.0",
+    "babel-plugin-transform-replace-object-assign": "^0.2.1",
     "babel-preset-airbnb": "^2.1.1",
     "babel-register": "^6.18.0",
     "chai": "^4.0.1",
@@ -60,6 +61,8 @@
   },
   "dependencies": {
     "array-flatten": "^2.1.0",
-    "has": "^1.0.1"
+    "has": "^1.0.1",
+    "object.assign": "^4.0.4",
+    "rtl-css-js": "^1.1.3"
   }
 }
