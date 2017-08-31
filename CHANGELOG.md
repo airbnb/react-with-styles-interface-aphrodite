@@ -1,3 +1,6 @@
+## v2.0.1
+- Fix RTL support for pseudoselectors and match media queries
+
 ## v2.0.0
 - Add RTL support in the resolve method
 
