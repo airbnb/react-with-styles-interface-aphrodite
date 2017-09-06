@@ -4,7 +4,7 @@ import { hashObject } from 'aphrodite/lib/util';
 import { from as flatten } from 'array-flatten';
 import has from 'has';
 
-import { RTL_SELECTOR } from './withRTLExtension';
+import { LTR_SELECTOR, RTL_SELECTOR } from './withRTLExtension';
 import generateRTLStyles from './generateRTLStyles';
 
 // This function takes the array of styles and separates them into styles that
@@ -70,12 +70,14 @@ export default ({ StyleSheet, css }/* aphrodite */) => ({
 
     const stylesWithDirection = aphroditeStyles.map((stylesObj) => {
       let definition = stylesObj._definition;
-      const rtlStyles = generateRTLStyles(definition);
-
-      if (rtlStyles) {
-        // This applies the rtlStyles whenever dir="rtl" is set. This is because
-        // the interface knows nothing about the current directional context.
-        definition = { ...definition, [RTL_SELECTOR]: rtlStyles };
+      const directionalStyles = generateRTLStyles(definition);
+      if (directionalStyles) {
+        const { sharedStyles, ltrStyles, rtlStyles } = directionalStyles;
+        definition = {
+          ...sharedStyles,
+          [LTR_SELECTOR]: ltrStyles,
+          [RTL_SELECTOR]: rtlStyles,
+        };
       }
 
       return {
@@ -99,7 +101,13 @@ export default ({ StyleSheet, css }/* aphrodite */) => ({
         // converting to classes is likely to be way too slow. For those and
         // other edge-cases, consumers should rely on the resolveNoRTL method
         // instead.
-        const stylesDef = Object.assign(inlineStyles, { [RTL_SELECTOR]: inlineRTLStyles });
+        const { sharedStyles, ltrStyles, rtlStyles } = inlineRTLStyles;
+        const stylesDef = {
+          ...sharedStyles,
+          [LTR_SELECTOR]: ltrStyles,
+          [RTL_SELECTOR]: rtlStyles,
+        };
+
         stylesWithDirection.push({
           _name: `inlineStyles_${hashObject(stylesDef)}`,
           _definition: stylesDef,

@@ -1,3 +1,4 @@
+export const LTR_SELECTOR = '_ltr';
 export const RTL_SELECTOR = '_rtl';
 
 const styleDefRegex = /\.[^{}]+\{[^{}]+\}/g;
@@ -10,15 +11,16 @@ const styleDefRegex = /\.[^{}]+\{[^{}]+\}/g;
  * handler adds that extra style definition to the <style /> tag created by Aphrodite.
  */
 function directionSelectorHandler(selector, baseSelector, generateSubtreeStyles) {
-  if (selector !== RTL_SELECTOR) {
+  if (selector !== RTL_SELECTOR && selector !== LTR_SELECTOR) {
     return null;
   }
 
   const generated = generateSubtreeStyles(baseSelector);
+  const prefix = selector === RTL_SELECTOR ? '[dir="rtl"]' : '[dir="ltr"]';
 
   // generated may include more than one style definition (pseudoselectors, matchmedia, etc.).
   // We want to prefix each one individually.
-  return generated.replace(styleDefRegex, g => `[dir="rtl"] ${g}`);
+  return generated.replace(styleDefRegex, g => `${prefix} ${g}`);
 }
 
 export default function withRTLExtension({ StyleSheet } /* aphrodite */) {

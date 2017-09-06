@@ -1,52 +1,54 @@
 import rtlCSSJS from 'rtl-css-js';
-import has from 'has';
 
-function stylesDiff(ltrStyles, rtlStyles) {
-  const ltrStylesDiff = { ...ltrStyles };
+function isEmpty(obj) {
+  return Object.keys(obj).length === 0;
+}
+
+function separateDirectionalStyles(originalStyles, autoRTLStyles) {
+  const sharedStyles = {};
+  const ltrStyles = { ...originalStyles };
+  const rtlStyles = {};
 
   let hasRTLStyles = false;
-
-  const styles = {}; // only includes the necessary styles and overrides
-  Object.entries(rtlStyles)
+  Object.entries(autoRTLStyles)
     .forEach(([key, value]) => {
-      if (has(ltrStylesDiff, key)) {
-        // We want ltrStylesDiff to only include the styles that need to be
-        // overridden because they had been flipped in such a way that they
-        // don't exist in the rtlStyles object. As such, we delete everything
-        // that exists in both rtlStyles and ltrStyles.
-        delete ltrStylesDiff[key];
-      }
-
-      if (value === ltrStyles[key]) {
+      if (value === originalStyles[key]) {
+        delete ltrStyles[key];
+        sharedStyles[key] = value;
         return;
       }
 
       if (value && typeof value === 'object') {
         // In some cases (pseudoselectors, matchmedia queries, etc.), the style
         // value may be an object, and we need to recurse.
-        const recursiveStyles = stylesDiff(ltrStyles[key], value);
+        const recursiveStyles = separateDirectionalStyles(originalStyles[key], value);
         if (recursiveStyles != null) {
           hasRTLStyles = true;
-          styles[key] = recursiveStyles;
+          const {
+            sharedStyles: recursiveSharedStyles,
+            ltrStyles: recursiveLtrStyles,
+            rtlStyles: recursiveRtlStyles,
+          } = recursiveStyles;
+
+          if (!isEmpty(recursiveSharedStyles)) sharedStyles[key] = recursiveSharedStyles;
+          if (!isEmpty(recursiveLtrStyles)) ltrStyles[key] = recursiveLtrStyles;
+          if (!isEmpty(recursiveRtlStyles)) rtlStyles[key] = recursiveRtlStyles;
         }
       } else if (value != null) {
         hasRTLStyles = true;
-        styles[key] = value;
+        rtlStyles[key] = value;
       }
-    });
-
-  // The only styles remaining in ltrStylesDiff are those that have
-  // been flipped in such a way that they need to be reset in an RTL context.
-  Object.keys(ltrStylesDiff)
-    .forEach((key) => {
-      styles[key] = 'initial';
     });
 
   if (!hasRTLStyles) return null;
 
-  return styles;
+  return {
+    sharedStyles,
+    ltrStyles,
+    rtlStyles,
+  };
 }
 
 export default function generateRTLStyles(ltrStyles) {
-  return stylesDiff(ltrStyles, rtlCSSJS(ltrStyles));
+  return separateDirectionalStyles(ltrStyles, rtlCSSJS(ltrStyles));
 }

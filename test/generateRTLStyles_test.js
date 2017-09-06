@@ -4,36 +4,53 @@ import generateRTLStyles from '../src/generateRTLStyles';
 
 describe('#generateRTLStyles', () => {
   it('returns null for non-flippable styles', () => {
-    const ltrStyles = {
+    const originalStyles = {
       color: 'red',
     };
 
-    expect(generateRTLStyles(ltrStyles)).to.eql(null);
+    expect(generateRTLStyles(originalStyles)).to.eql(null);
   });
 
-  it('returns flipped style if value were to change', () => {
-    const ltrStyles = {
+  it('returns flipped value in rtlStyles if value were to change', () => {
+    const originalStyles = {
+      width: 300,
       textAlign: 'left',
     };
 
-    expect(generateRTLStyles(ltrStyles)).to.eql({
-      textAlign: 'right',
+    expect(generateRTLStyles(originalStyles)).to.eql({
+      sharedStyles: {
+        width: 300,
+      },
+      ltrStyles: {
+        textAlign: 'left',
+      },
+      rtlStyles: {
+        textAlign: 'right',
+      },
     });
   });
 
-  it('returns flipped style and override if style key changes', () => {
-    const ltrStyles = {
+  it('returns flipped style in rtlStyles object if style key changes', () => {
+    const originalStyles = {
+      background: '#fff',
       marginLeft: 10,
     };
 
-    expect(generateRTLStyles(ltrStyles)).to.eql({
-      marginLeft: 'initial',
-      marginRight: 10,
+    expect(generateRTLStyles(originalStyles)).to.eql({
+      sharedStyles: {
+        background: '#fff',
+      },
+      ltrStyles: {
+        marginLeft: 10,
+      },
+      rtlStyles: {
+        marginRight: 10,
+      },
     });
   });
 
   it('handles nested objects', () => {
-    const ltrStyles = {
+    const originalStyles = {
       ':before': {
         left: 10,
         color: 'red',
@@ -43,13 +60,27 @@ describe('#generateRTLStyles', () => {
       },
     };
 
-    expect(generateRTLStyles(ltrStyles)).to.eql({
-      ':before': {
-        left: 'initial',
-        right: 10,
+    expect(generateRTLStyles(originalStyles)).to.eql({
+      sharedStyles: {
+        ':before': {
+          color: 'red',
+        },
       },
-      ':after': {
-        float: 'left',
+      ltrStyles: {
+        ':before': {
+          left: 10,
+        },
+        ':after': {
+          float: 'right',
+        },
+      },
+      rtlStyles: {
+        ':before': {
+          right: 10,
+        },
+        ':after': {
+          float: 'left',
+        },
       },
     });
   });

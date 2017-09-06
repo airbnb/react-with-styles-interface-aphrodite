@@ -158,7 +158,7 @@ describe('aphroditeInterfaceFactory', () => {
       };
 
       expect(aphroditeInterface.resolve([style]))
-        .to.eql({ className: 'inlineStyles_15cjgmo' });
+        .to.eql({ className: 'inlineStyles_1c0b5pw' });
     });
   });
 
