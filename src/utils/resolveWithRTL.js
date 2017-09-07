@@ -4,7 +4,7 @@ import { hashObject } from 'aphrodite/lib/util';
 
 import separateStyles from './separateStyles';
 import { LTR_SELECTOR, RTL_SELECTOR } from './withRTLExtension';
-import generateRTLStyles from './generateRTLStyles';
+import generateDirectionalStyles from './generateDirectionalStyles';
 
 // Styles is an array of properties returned by `create()`, a POJO, or an
 // array thereof. POJOs are treated as inline styles. The default resolve
@@ -21,7 +21,7 @@ export default function resolveWithRTL(css, styles) {
 
   const stylesWithDirection = aphroditeStyles.map((stylesObj) => {
     let definition = stylesObj._definition;
-    const directionalStyles = generateRTLStyles(definition);
+    const directionalStyles = generateDirectionalStyles(definition);
     if (directionalStyles) {
       const { sharedStyles, ltrStyles, rtlStyles } = directionalStyles;
       definition = {
@@ -39,7 +39,7 @@ export default function resolveWithRTL(css, styles) {
 
   const result = {};
   if (hasInlineStyles) {
-    const inlineRTLStyles = generateRTLStyles(inlineStyles);
+    const inlineRTLStyles = generateDirectionalStyles(inlineStyles);
 
     if (inlineRTLStyles) {
       // Because we know nothing about the current directional context, there

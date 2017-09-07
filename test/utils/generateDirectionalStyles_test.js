@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 
-import generateRTLStyles from '../src/generateRTLStyles';
+import generateDirectionalStyles from '../../src/utils/generateDirectionalStyles';
 
-describe('#generateRTLStyles', () => {
+describe('#generateDirectionalStyles', () => {
   it('returns null for non-flippable styles', () => {
     const originalStyles = {
       color: 'red',
     };
 
-    expect(generateRTLStyles(originalStyles)).to.eql(null);
+    expect(generateDirectionalStyles(originalStyles)).to.eql(null);
   });
 
   it('returns flipped value in rtlStyles if value were to change', () => {
@@ -17,7 +17,7 @@ describe('#generateRTLStyles', () => {
       textAlign: 'left',
     };
 
-    expect(generateRTLStyles(originalStyles)).to.eql({
+    expect(generateDirectionalStyles(originalStyles)).to.eql({
       sharedStyles: {
         width: 300,
       },
@@ -36,7 +36,7 @@ describe('#generateRTLStyles', () => {
       marginLeft: 10,
     };
 
-    expect(generateRTLStyles(originalStyles)).to.eql({
+    expect(generateDirectionalStyles(originalStyles)).to.eql({
       sharedStyles: {
         background: '#fff',
       },
@@ -60,7 +60,7 @@ describe('#generateRTLStyles', () => {
       },
     };
 
-    expect(generateRTLStyles(originalStyles)).to.eql({
+    expect(generateDirectionalStyles(originalStyles)).to.eql({
       sharedStyles: {
         ':before': {
           color: 'red',

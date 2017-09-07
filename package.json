@@ -57,7 +57,9 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "rimraf": "^2.5.4",
-    "safe-publish-latest": "^1.1.1"
+    "safe-publish-latest": "^1.1.1",
+    "sinon": "^3.2.1",
+    "sinon-sandbox": "^1.0.2"
   },
   "peerDependencies": {
     "aphrodite": ">=0.5.0"

@@ -49,6 +49,6 @@ function separateDirectionalStyles(originalStyles, autoRTLStyles) {
   };
 }
 
-export default function generateRTLStyles(ltrStyles) {
+export default function generateDirectionalStyles(ltrStyles) {
   return separateDirectionalStyles(ltrStyles, rtlCSSJS(ltrStyles));
 }

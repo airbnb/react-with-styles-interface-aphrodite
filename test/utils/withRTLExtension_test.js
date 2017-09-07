@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import PropTypes from 'prop-types';
 import { expect } from 'chai';
-import * as aphrodite from 'aphrodite';
-import withRTLExtension from '../src/withRTLExtension';
+import aphrodite from 'aphrodite';
+import withRTLExtension from '../../src/utils/withRTLExtension';
 
 const { StyleSheet, StyleSheetServer, css } = withRTLExtension(aphrodite);
 
