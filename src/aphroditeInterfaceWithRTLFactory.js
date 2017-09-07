@@ -1,5 +1,6 @@
 import { flushToStyleTag } from 'aphrodite/lib/inject';
 
+import resolveWithRTL from './utils/resolveWithRTL';
 import resolve from './utils/resolve';
 
 export default ({ StyleSheet, css }/* aphrodite */) => ({
@@ -8,6 +9,10 @@ export default ({ StyleSheet, css }/* aphrodite */) => ({
   },
 
   resolve(styles) {
+    return resolveWithRTL(css, styles);
+  },
+
+  resolveNoRTL(styles) {
     return resolve(css, styles);
   },
 
