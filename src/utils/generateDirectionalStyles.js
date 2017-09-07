@@ -1,9 +1,5 @@
 import rtlCSSJS from 'rtl-css-js';
 
-function isEmpty(obj) {
-  return Object.keys(obj).length === 0;
-}
-
 function separateDirectionalStyles(originalStyles, autoRTLStyles) {
   const sharedStyles = {};
   const ltrStyles = { ...originalStyles };
@@ -30,9 +26,9 @@ function separateDirectionalStyles(originalStyles, autoRTLStyles) {
             rtlStyles: recursiveRtlStyles,
           } = recursiveStyles;
 
-          if (!isEmpty(recursiveSharedStyles)) sharedStyles[key] = recursiveSharedStyles;
-          if (!isEmpty(recursiveLtrStyles)) ltrStyles[key] = recursiveLtrStyles;
-          if (!isEmpty(recursiveRtlStyles)) rtlStyles[key] = recursiveRtlStyles;
+          sharedStyles[key] = recursiveSharedStyles;
+          ltrStyles[key] = recursiveLtrStyles;
+          rtlStyles[key] = recursiveRtlStyles;
         }
       } else if (value != null) {
         hasRTLStyles = true;

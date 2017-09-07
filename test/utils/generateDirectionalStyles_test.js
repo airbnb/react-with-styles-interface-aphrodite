@@ -65,6 +65,7 @@ describe('#generateDirectionalStyles', () => {
         ':before': {
           color: 'red',
         },
+        ':after': {},
       },
       ltrStyles: {
         ':before': {
