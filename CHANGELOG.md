@@ -1,3 +1,6 @@
+## v3.0.0
+- Revert default export to v1 version and export `with-rtl` interface in addition
+
 ## v2.0.1
 - Add RTL support for borderLeftWidth, translateX, translate, and translate3d
 
