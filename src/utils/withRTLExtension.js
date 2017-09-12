@@ -1,7 +1,7 @@
 export const LTR_SELECTOR = '_ltr';
 export const RTL_SELECTOR = '_rtl';
 
-const styleDefRegex = /\.[^{}]+\{[^{}]+\}/g;
+const styleDefRegex = /(\.[^{}]+\{[^{}]+\})/g;
 
 /*
  * When automatically flipping CSS styles in our interface, instead of determining RTL/LTR context
@@ -16,11 +16,19 @@ function directionSelectorHandler(selector, baseSelector, generateSubtreeStyles)
   }
 
   const generated = generateSubtreeStyles(baseSelector);
+
+  // We prefix ALL flippable styles with a direction selector for a number of reasons.
+  // If we only prefixed RTL styles, we would need to figure out a reasonable reset value for
+  // each style attribute which is a challenge to do so in a robust and cross platform way.
+  // Only prefixing RTL styles also causes issues when dealing with single direction and all 4
+  // direction style definitions together (ie borderRadius: '8px 0 0 8px' and
+  // borderTopRightRadius: 8 together gets overriden in an unexpected way). Prefixing with both
+  // dir attributes fixes both of these issues.
   const prefix = selector === RTL_SELECTOR ? '[dir="rtl"]' : '[dir="ltr"]';
 
   // generated may include more than one style definition (pseudoselectors, matchmedia, etc.).
   // We want to prefix each one individually.
-  return generated.replace(styleDefRegex, g => `${prefix} ${g}`);
+  return generated.replace(styleDefRegex, `${prefix} $1`);
 }
 
 export default function withRTLExtension({ StyleSheet } /* aphrodite */) {

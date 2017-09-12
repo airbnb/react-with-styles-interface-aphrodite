@@ -18,13 +18,11 @@ describe('#generateDirectionalStyles', () => {
     };
 
     expect(generateDirectionalStyles(originalStyles)).to.eql({
-      sharedStyles: {
-        width: 300,
-      },
-      ltrStyles: {
+      width: 300,
+      _ltr: {
         textAlign: 'left',
       },
-      rtlStyles: {
+      _rtl: {
         textAlign: 'right',
       },
     });
@@ -37,13 +35,11 @@ describe('#generateDirectionalStyles', () => {
     };
 
     expect(generateDirectionalStyles(originalStyles)).to.eql({
-      sharedStyles: {
-        background: '#fff',
-      },
-      ltrStyles: {
+      background: '#fff',
+      _ltr: {
         marginLeft: 10,
       },
-      rtlStyles: {
+      _rtl: {
         marginRight: 10,
       },
     });
@@ -61,13 +57,11 @@ describe('#generateDirectionalStyles', () => {
     };
 
     expect(generateDirectionalStyles(originalStyles)).to.eql({
-      sharedStyles: {
-        ':before': {
-          color: 'red',
-        },
-        ':after': {},
+      ':before': {
+        color: 'red',
       },
-      ltrStyles: {
+      ':after': {},
+      _ltr: {
         ':before': {
           left: 10,
         },
@@ -75,7 +69,7 @@ describe('#generateDirectionalStyles', () => {
           float: 'right',
         },
       },
-      rtlStyles: {
+      _rtl: {
         ':before': {
           right: 10,
         },

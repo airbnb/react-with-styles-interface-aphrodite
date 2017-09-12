@@ -34,6 +34,7 @@ describe('aphroditeInterfaceWithRTLFactory', () => {
           _definition: {
             color: 'red',
           },
+          _len: 15,
           _name: 'foo_137u7ef',
         },
       });

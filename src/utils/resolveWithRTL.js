@@ -3,7 +3,6 @@ import { from as flatten } from 'array-flatten';
 import { hashObject } from 'aphrodite/lib/util';
 
 import separateStyles from './separateStyles';
-import { LTR_SELECTOR, RTL_SELECTOR } from './withRTLExtension';
 import generateDirectionalStyles from './generateDirectionalStyles';
 
 // Styles is an array of properties returned by `create()`, a POJO, or an
@@ -19,22 +18,15 @@ export default function resolveWithRTL(css, styles) {
     inlineStyles,
   } = separateStyles(flattenedStyles);
 
-  const stylesWithDirection = aphroditeStyles.map((stylesObj) => {
-    let definition = stylesObj._definition;
+  aphroditeStyles.forEach((stylesObj) => {
+    // The _definition key is an implementation detail of aphrodite. If aphrodite
+    // changes it in the future, this code will need to be updated.
+    const definition = stylesObj._definition;
     const directionalStyles = generateDirectionalStyles(definition);
-    if (directionalStyles) {
-      const { sharedStyles, ltrStyles, rtlStyles } = directionalStyles;
-      definition = {
-        ...sharedStyles,
-        [LTR_SELECTOR]: ltrStyles,
-        [RTL_SELECTOR]: rtlStyles,
-      };
-    }
 
-    return {
-      ...stylesObj,
-      _definition: definition,
-    };
+    if (!directionalStyles) return;
+
+    stylesObj._definition = directionalStyles; // eslint-disable-line no-param-reassign
   });
 
   const result = {};
@@ -52,24 +44,17 @@ export default function resolveWithRTL(css, styles) {
       // converting to classes is likely to be way too slow. For those and
       // other edge-cases, consumers should rely on the resolveNoRTL method
       // instead.
-      const { sharedStyles, ltrStyles, rtlStyles } = inlineRTLStyles;
-      const stylesDef = {
-        ...sharedStyles,
-        [LTR_SELECTOR]: ltrStyles,
-        [RTL_SELECTOR]: rtlStyles,
-      };
-
-      stylesWithDirection.push({
-        _name: `inlineStyles_${hashObject(stylesDef)}`,
-        _definition: stylesDef,
+      aphroditeStyles.push({
+        _name: `inlineStyles_${hashObject(inlineRTLStyles)}`,
+        _definition: inlineRTLStyles,
       });
     } else {
       result.style = inlineStyles;
     }
   }
 
-  if (stylesWithDirection.length > 0) {
-    result.className = css(...stylesWithDirection);
+  if (aphroditeStyles.length > 0) {
+    result.className = css(...aphroditeStyles);
   }
 
   return result;
