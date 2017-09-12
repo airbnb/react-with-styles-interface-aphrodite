@@ -2,13 +2,13 @@
 - Revert default export to v1 version and export `with-rtl` interface in addition
 
 ## v2.0.1
-- Add RTL support for borderLeftWidth, translateX, translate, and translate3d
+- Add RTL support for `borderLeftWidth`, `translateX`, `translate`, and `translate3d`
 
 ## v2.0.1
 - Fix RTL support for pseudoselectors and match media queries
 
 ## v2.0.0
-- Add RTL support in the resolve method
+- Add RTL support in the `resolve` method
 
 ## v1.2.0
 
