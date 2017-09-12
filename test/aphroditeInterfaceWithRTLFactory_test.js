@@ -1,18 +1,21 @@
 import { expect } from 'chai';
 import sinon from 'sinon-sandbox';
 import aphrodite from 'aphrodite';
-import aphroditeInterfaceFactory from '../src/aphroditeInterfaceFactory';
+import aphroditeInterfaceWithRTLFactory from '../src/aphroditeInterfaceWithRTLFactory';
 
 import * as resolve from '../src/utils/resolve';
+import * as resolveWithRTL from '../src/utils/resolveWithRTL';
 
-describe('aphroditeInterfaceFactory', () => {
+describe('aphroditeInterfaceWithRTLFactory', () => {
   const { StyleSheetTestUtils } = aphrodite;
-  const aphroditeInterface = aphroditeInterfaceFactory(aphrodite);
+  const aphroditeInterfaceWithRTL = aphroditeInterfaceWithRTLFactory(aphrodite);
   let resolveSpy;
+  let resolveWithRTLSpy;
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
     resolveSpy = sinon.spy(resolve, 'default');
+    resolveWithRTLSpy = sinon.spy(resolveWithRTL, 'default');
   });
 
   afterEach(() => {
@@ -22,7 +25,7 @@ describe('aphroditeInterfaceFactory', () => {
 
   describe('.create()', () => {
     it('processes the styles with Aphrodite', () => {
-      expect(aphroditeInterface.create({
+      expect(aphroditeInterfaceWithRTL.create({
         foo: {
           color: 'red',
         },
@@ -39,15 +42,15 @@ describe('aphroditeInterfaceFactory', () => {
   });
 
   describe('.resolve()', () => {
-    it('calls resolve method', () => {
-      aphroditeInterface.resolve([]);
-      expect(resolveSpy.callCount).to.equal(1);
+    it('calls resolveWithRTL method', () => {
+      aphroditeInterfaceWithRTL.resolve([]);
+      expect(resolveWithRTLSpy.callCount).to.equal(1);
     });
   });
 
   describe('.resolveNoRTL()', () => {
     it('calls resolve method', () => {
-      aphroditeInterface.resolveNoRTL([]);
+      aphroditeInterfaceWithRTL.resolveNoRTL([]);
       expect(resolveSpy.callCount).to.equal(1);
     });
   });
