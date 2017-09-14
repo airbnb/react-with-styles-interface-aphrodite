@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, no-param-reassign */
 import { from as flatten } from 'array-flatten';
 import { hashObject } from 'aphrodite/lib/util';
 
@@ -19,14 +19,18 @@ export default function resolveWithRTL(css, styles) {
   } = separateStyles(flattenedStyles);
 
   aphroditeStyles.forEach((stylesObj) => {
-    // The _definition key is an implementation detail of aphrodite. If aphrodite
-    // changes it in the future, this code will need to be updated.
-    const definition = stylesObj._definition;
-    const directionalStyles = generateDirectionalStyles(definition);
+    // Since we are mutating the StyleSheet object directly, we want to cache the withRTL/noRTL
+    // results and then set the _definition key to point to the appropriate version when necessary.
+    if (!stylesObj.withRTL || !stylesObj.noRTL) {
+      // The _definition key is an implementation detail of aphrodite. If aphrodite
+      // changes it in the future, this code will need to be updated.
+      const definition = stylesObj._definition;
+      stylesObj.noRTL = definition;
 
-    if (!directionalStyles) return;
-
-    stylesObj._definition = directionalStyles; // eslint-disable-line no-param-reassign
+      const directionalStyles = generateDirectionalStyles(definition);
+      stylesObj.withRTL = directionalStyles || definition;
+    }
+    stylesObj._definition = stylesObj.withRTL;
   });
 
   const result = {};

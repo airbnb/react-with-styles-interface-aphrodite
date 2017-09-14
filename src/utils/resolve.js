@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { from as flatten } from 'array-flatten';
 
 import separateStyles from './separateStyles';
@@ -14,6 +15,12 @@ export default function resolve(css, styles) {
     hasInlineStyles,
     inlineStyles,
   } = separateStyles(flattenedStyles);
+
+  aphroditeStyles.forEach((stylesObj) => {
+    if (stylesObj.noRTL) {
+      stylesObj._definition = stylesObj.noRTL;
+    }
+  });
 
   const result = {};
   if (aphroditeStyles.length > 0) {

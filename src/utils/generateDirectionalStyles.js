@@ -17,22 +17,24 @@ function separateDirectionalStyles(originalStyles, autoRTLStyles) {
       }
 
       if (value && typeof value === 'object') {
+        delete ltrStyles[key];
         // In some cases (pseudoselectors, matchmedia queries, etc.), the style
         // value may be an object, and we need to recurse.
         const recursiveStyles = separateDirectionalStyles(originalStyles[key], value);
+
         if (recursiveStyles != null) {
           hasRTLStyles = true;
           const {
-            [LTR_SELECTOR]: recursiveLtrStyles,
-            [RTL_SELECTOR]: recursiveRtlStyles,
+            sharedStyles: recursiveSharedStyles,
+            ltrStyles: recursiveLtrStyles,
+            rtlStyles: recursiveRtlStyles,
           } = recursiveStyles;
 
-          delete recursiveStyles[LTR_SELECTOR];
-          delete recursiveStyles[RTL_SELECTOR];
-
-          sharedStyles[key] = recursiveStyles;
+          sharedStyles[key] = recursiveSharedStyles;
           ltrStyles[key] = recursiveLtrStyles;
           rtlStyles[key] = recursiveRtlStyles;
+        } else {
+          sharedStyles[key] = value;
         }
       } else if (value != null) {
         hasRTLStyles = true;
@@ -42,13 +44,17 @@ function separateDirectionalStyles(originalStyles, autoRTLStyles) {
 
   if (!hasRTLStyles) return null;
 
+  return { sharedStyles, ltrStyles, rtlStyles };
+}
+
+export default function generateDirectionalStyles(originalStyles) {
+  const directionalStyles = separateDirectionalStyles(originalStyles, rtlCSSJS(originalStyles));
+  if (!directionalStyles) return null;
+
+  const { sharedStyles, ltrStyles, rtlStyles } = directionalStyles;
   return {
     ...sharedStyles,
     [LTR_SELECTOR]: ltrStyles,
     [RTL_SELECTOR]: rtlStyles,
   };
-}
-
-export default function generateDirectionalStyles(ltrStyles) {
-  return separateDirectionalStyles(ltrStyles, rtlCSSJS(ltrStyles));
 }
