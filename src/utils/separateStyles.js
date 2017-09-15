@@ -2,7 +2,7 @@ import has from 'has';
 
 // This function takes the array of styles and separates them into styles that
 // are handled by Aphrodite and inline styles.
-export default function separateStyles(stylesArray) {
+export default function separateStyles(stylesArray, aphroditeStyleTransform) {
   const aphroditeStyles = [];
 
   // Since determining if an Object is empty requires collecting all of its
@@ -15,7 +15,7 @@ export default function separateStyles(stylesArray) {
   // performance is critical. Normally we would prefer using `forEach`, but
   // old-fashioned for loops are faster so that's what we have chosen here.
   for (let i = 0; i < stylesArray.length; i += 1) {
-    const style = stylesArray[i];
+    let style = stylesArray[i];
 
     // If this  style is falsey, we just want to disregard it. This allows for
     // syntax like:
@@ -28,6 +28,10 @@ export default function separateStyles(stylesArray) {
       ) {
         // This looks like a reference to an Aphrodite style object, so that's
         // where it goes.
+        if (aphroditeStyleTransform) {
+          style = aphroditeStyleTransform(style);
+        }
+
         aphroditeStyles.push(style);
       } else {
         Object.assign(inlineStyles, style);
