@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import aphrodite from 'aphrodite';
 
 import withRTLExtension from '../../src/utils/withRTLExtension';
+import resolve from '../../src/utils/resolve';
 import resolveWithRTL from '../../src/utils/resolveWithRTL';
 
 const { StyleSheetTestUtils, StyleSheet, css } = withRTLExtension(aphrodite);
@@ -140,5 +141,43 @@ describe('#resolveWithRTL', () => {
           padding: 1,
         },
       });
+  });
+
+  it('handles multiple calls to the same style definition', () => {
+    const styles = StyleSheet.create({
+      container: {
+        textAlign: 'left',
+      },
+    });
+
+    resolveWithRTL(css, [styles.container]);
+    const definition = { ...styles.container._definition };
+
+    resolveWithRTL(css, [styles.container]);
+    const newDefinition = styles.container._definition;
+    expect(definition).to.eql(newDefinition);
+  });
+
+  it('style definition is as expected even after calling resolveWithRTL', () => {
+    const styles = StyleSheet.create({
+      container: {
+        textAlign: 'left',
+      },
+    });
+
+    resolve(css, [styles.container]);
+    const oldDefinition = { ...styles.container._definition };
+
+    resolveWithRTL(css, [styles.container]);
+    const definition = styles.container._definition;
+    expect(definition).to.not.eql(oldDefinition);
+    expect(definition).to.eql({
+      _ltr: {
+        textAlign: 'left',
+      },
+      _rtl: {
+        textAlign: 'right',
+      },
+    });
   });
 });

@@ -1,9 +1,25 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, no-param-reassign */
 import { from as flatten } from 'array-flatten';
 import { hashObject } from 'aphrodite/lib/util';
 
 import separateStyles from './separateStyles';
 import generateDirectionalStyles from './generateDirectionalStyles';
+
+function setStyleDefinitionWithRTL(stylesObj) {
+  // Since we are mutating the StyleSheet object directly, we want to cache the withRTL/noRTL
+  // results and then set the _definition key to point to the appropriate version when necessary.
+  if (!stylesObj.withRTL || !stylesObj.noRTL) {
+    // The _definition key is an implementation detail of aphrodite. If aphrodite
+    // changes it in the future, this code will need to be updated.
+    const definition = stylesObj._definition;
+    stylesObj.noRTL = definition;
+
+    const directionalStyles = generateDirectionalStyles(definition);
+    stylesObj.withRTL = directionalStyles || definition;
+  }
+  stylesObj._definition = stylesObj.withRTL;
+  return stylesObj;
+}
 
 // Styles is an array of properties returned by `create()`, a POJO, or an
 // array thereof. POJOs are treated as inline styles. The default resolve
@@ -16,18 +32,7 @@ export default function resolveWithRTL(css, styles) {
     aphroditeStyles,
     hasInlineStyles,
     inlineStyles,
-  } = separateStyles(flattenedStyles);
-
-  aphroditeStyles.forEach((stylesObj) => {
-    // The _definition key is an implementation detail of aphrodite. If aphrodite
-    // changes it in the future, this code will need to be updated.
-    const definition = stylesObj._definition;
-    const directionalStyles = generateDirectionalStyles(definition);
-
-    if (!directionalStyles) return;
-
-    stylesObj._definition = directionalStyles; // eslint-disable-line no-param-reassign
-  });
+  } = separateStyles(flattenedStyles, setStyleDefinitionWithRTL);
 
   const result = {};
   if (hasInlineStyles) {

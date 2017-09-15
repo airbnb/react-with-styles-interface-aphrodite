@@ -79,4 +79,34 @@ describe('#generateDirectionalStyles', () => {
       },
     });
   });
+
+  it('handles shared nested shared style with flipped style', () => {
+    const originalStyles = {
+      container: {
+        textAlign: 'left',
+        ':active': {
+          outline: 0,
+        },
+      },
+    };
+
+    expect(generateDirectionalStyles(originalStyles))
+      .to.eql({
+        container: {
+          ':active': {
+            outline: 0,
+          },
+        },
+        _ltr: {
+          container: {
+            textAlign: 'left',
+          },
+        },
+        _rtl: {
+          container: {
+            textAlign: 'right',
+          },
+        },
+      });
+  });
 });
