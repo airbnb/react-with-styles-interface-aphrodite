@@ -1,3 +1,6 @@
+## v3.0.1
+- Fix for `with-rtl` interface when an aphrodite style is called multiple times
+
 ## v3.0.0
 - Revert default export to v1 version and export `with-rtl` interface in addition
 
