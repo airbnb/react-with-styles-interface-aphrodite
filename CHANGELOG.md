@@ -1,10 +1,13 @@
+## v3.1.0
+- Add RTL support for `linear-gradient`
+
 ## v3.0.1
 - Fix for `with-rtl` interface when an aphrodite style is called multiple times
 
 ## v3.0.0
 - Revert default export to v1 version and export `with-rtl` interface in addition
 
-## v2.0.1
+## v2.1.0
 - Add RTL support for `borderLeftWidth`, `translateX`, `translate`, and `translate3d`
 
 ## v2.0.1
