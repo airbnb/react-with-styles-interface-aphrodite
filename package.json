@@ -65,9 +65,9 @@
     "aphrodite": ">=0.5.0"
   },
   "dependencies": {
-    "array-flatten": "^2.1.0",
+    "array-flatten": "^2.1.1",
     "has": "^1.0.1",
     "object.assign": "^4.0.4",
-    "rtl-css-js": "^1.4.0"
+    "rtl-css-js": "^1.6.0"
   }
 }
