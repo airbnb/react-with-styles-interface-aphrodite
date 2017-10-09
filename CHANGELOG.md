@@ -1,3 +1,6 @@
+## v3.1.1
+- Allow boolean values for styles to run without failure
+
 ## v3.1.0
 - Add RTL support for `linear-gradient`
 
