@@ -60,7 +60,6 @@ describe('#generateDirectionalStyles', () => {
       ':before': {
         color: 'red',
       },
-      ':after': {},
       _ltr: {
         ':before': {
           left: 10,
@@ -82,31 +81,104 @@ describe('#generateDirectionalStyles', () => {
 
   it('handles shared nested shared style with flipped style', () => {
     const originalStyles = {
-      container: {
-        textAlign: 'left',
-        ':active': {
-          outline: 0,
-        },
+      textAlign: 'left',
+      ':active': {
+        outline: 0,
       },
     };
 
     expect(generateDirectionalStyles(originalStyles))
       .to.eql({
-        container: {
-          ':active': {
-            outline: 0,
-          },
+        ':active': {
+          outline: 0,
         },
         _ltr: {
-          container: {
-            textAlign: 'left',
+          textAlign: 'left',
+        },
+        _rtl: {
+          textAlign: 'right',
+        },
+      });
+  });
+
+  it('correctly flips a mix of nested and non-nested styles', () => {
+    const originalStyles = {
+      left: -8,
+
+      '@media (max-width:744px)': {
+        left: 0,
+      },
+    };
+
+    expect(generateDirectionalStyles(originalStyles))
+      .to.eql({
+        _ltr: {
+          left: -8,
+
+          '@media (max-width:744px)': {
+            left: 0,
           },
         },
         _rtl: {
-          container: {
-            textAlign: 'right',
+          right: -8,
+
+          '@media (max-width:744px)': {
+            right: 0,
           },
         },
+      });
+  });
+
+  it('keyframe animations', () => {
+    const originalStyles = {
+      animationName: {
+        '0%': {
+          opacity: 0,
+          transform: 'scale(0.75) translate3d(4px, -8px, 0)',
+        },
+        '100%': {
+          opacity: 1,
+          transform: 'scale(1) translate3d(4px, -8px, 0)',
+        },
+      },
+      animationDuration: '0.5s',
+      animationTimingFunction: 'ease',
+      animationFillMode: 'both',
+    };
+
+    expect(generateDirectionalStyles(originalStyles))
+      .to.eql({
+        _ltr: {
+          animationName: {
+            '0%': {
+              transform: 'scale(0.75) translate3d(4px, -8px, 0)',
+            },
+            '100%': {
+              transform: 'scale(1) translate3d(4px, -8px, 0)',
+            },
+          },
+        },
+        _rtl: {
+          animationName: {
+            '0%': {
+              transform: 'scale(0.75) translate3d(-4px, -8px, 0)',
+            },
+            '100%': {
+              transform: 'scale(1) translate3d(-4px, -8px, 0)',
+            },
+          },
+        },
+        animationDuration: '0.5s',
+        animationFillMode: 'both',
+        animationName: {
+          '0%': {
+            opacity: 0,
+          },
+          '100%': {
+            opacity: 1,
+          },
+        },
+        animationTimingFunction: 'ease',
       });
   });
 });
