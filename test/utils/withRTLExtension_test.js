@@ -328,5 +328,78 @@ describe('withRTLExtension', () => {
 
       expect(content).to.equal(expectedCSS);
     });
+
+    it('handles a mix of match media queries and regular styles', () => {
+      const styles = StyleSheet.create({
+        container: {
+          _ltr: {
+            left: -8,
+
+            '@media (max-width:744px)': {
+              left: 0,
+            },
+          },
+          _rtl: {
+            right: -8,
+
+            '@media (max-width:744px)': {
+              right: 0,
+            },
+          },
+        },
+      });
+
+      const expectedCSS = '[dir="ltr"] .container_1nqxn3{left:-8px !important;}@media (max-width:744px){[dir="ltr"] .container_1nqxn3{left:0px !important;}}[dir="rtl"] .container_1nqxn3{right:-8px !important;}@media (max-width:744px){[dir="rtl"] .container_1nqxn3{right:0px !important;}}';
+      const { css: { content } } = StyleSheetServer.renderStatic(() => (
+        ReactDOMServer.renderToString(<MyComponent styles={styles} />)
+      ));
+
+      expect(content).to.equal(expectedCSS);
+    });
+
+    it('handles flippable keyframe animations', () => {
+      const styles = StyleSheet.create({
+        container: {
+          _ltr: {
+            animationName: {
+              '0%': {
+                transform: 'scale(0.75) translate3d(4px, -8px, 0)',
+              },
+              '100%': {
+                transform: 'scale(1) translate3d(4px, -8px, 0)',
+              },
+            },
+          },
+          _rtl: {
+            animationName: {
+              '0%': {
+                transform: 'scale(0.75) translate3d(-4px, -8px, 0)',
+              },
+              '100%': {
+                transform: 'scale(1) translate3d(-4px, -8px, 0)',
+              },
+            },
+          },
+          animationDuration: '0.5s',
+          animationFillMode: 'both',
+          animationName: {
+            '0%': {
+              opacity: 0,
+            },
+            '100%': {
+              opacity: 1,
+            },
+          },
+          animationTimingFunction: 'ease',
+        },
+      });
+
+      const expectedCSS = '@keyframes keyframe_p1skye{0%{-webkit-transform:scale(0.75) translate3d(4px, -8px, 0);-ms-transform:scale(0.75) translate3d(4px, -8px, 0);transform:scale(0.75) translate3d(4px, -8px, 0);}100%{-webkit-transform:scale(1) translate3d(4px, -8px, 0);-ms-transform:scale(1) translate3d(4px, -8px, 0);transform:scale(1) translate3d(4px, -8px, 0);}}@keyframes keyframe_93w1qu{0%{-webkit-transform:scale(0.75) translate3d(-4px, -8px, 0);-ms-transform:scale(0.75) translate3d(-4px, -8px, 0);transform:scale(0.75) translate3d(-4px, -8px, 0);}100%{-webkit-transform:scale(1) translate3d(-4px, -8px, 0);-ms-transform:scale(1) translate3d(-4px, -8px, 0);transform:scale(1) translate3d(-4px, -8px, 0);}}@keyframes keyframe_1sh8tyy{0%{opacity:0;}100%{opacity:1;}}.container_xmf315{-webkit-animation-duration:0.5s !important;animation-duration:0.5s !important;-webkit-animation-fill-mode:both !important;animation-fill-mode:both !important;-webkit-animation-name:keyframe_1sh8tyy !important;animation-name:keyframe_1sh8tyy !important;-webkit-animation-timing-function:ease !important;animation-timing-function:ease !important;}[dir="ltr"] .container_xmf315{-webkit-animation-name:keyframe_p1skye !important;animation-name:keyframe_p1skye !important;}[dir="rtl"] .container_xmf315{-webkit-animation-name:keyframe_93w1qu !important;animation-name:keyframe_93w1qu !important;}';
+      const { css: { content } } = StyleSheetServer.renderStatic(() => (
+        ReactDOMServer.renderToString(<MyComponent styles={styles} />)
+      ));
+
+      expect(content).to.equal(expectedCSS);
+    });
   });
 });

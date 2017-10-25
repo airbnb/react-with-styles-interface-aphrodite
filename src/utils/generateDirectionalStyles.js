@@ -2,6 +2,10 @@ import rtlCSSJS from 'rtl-css-js';
 
 import { LTR_SELECTOR, RTL_SELECTOR } from './withRTLExtension';
 
+function isEmpty(obj) {
+  return obj && Object.keys(obj).length === 0;
+}
+
 function separateDirectionalStyles(originalStyles, autoRTLStyles) {
   const sharedStyles = {};
   const ltrStyles = { ...originalStyles };
@@ -30,9 +34,9 @@ function separateDirectionalStyles(originalStyles, autoRTLStyles) {
             rtlStyles: recursiveRtlStyles,
           } = recursiveStyles;
 
-          sharedStyles[key] = recursiveSharedStyles;
-          ltrStyles[key] = recursiveLtrStyles;
-          rtlStyles[key] = recursiveRtlStyles;
+          if (recursiveSharedStyles) sharedStyles[key] = recursiveSharedStyles;
+          if (recursiveLtrStyles) ltrStyles[key] = recursiveLtrStyles;
+          if (recursiveRtlStyles) rtlStyles[key] = recursiveRtlStyles;
         } else {
           sharedStyles[key] = value;
         }
@@ -44,7 +48,11 @@ function separateDirectionalStyles(originalStyles, autoRTLStyles) {
 
   if (!hasRTLStyles) return null;
 
-  return { sharedStyles, ltrStyles, rtlStyles };
+  return {
+    ...!isEmpty(sharedStyles) && { sharedStyles },
+    ...!isEmpty(ltrStyles) && { ltrStyles },
+    ...!isEmpty(rtlStyles) && { rtlStyles },
+  };
 }
 
 export default function generateDirectionalStyles(originalStyles) {
