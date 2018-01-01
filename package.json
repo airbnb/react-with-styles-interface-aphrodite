@@ -68,7 +68,7 @@
   "dependencies": {
     "array-flatten": "^2.1.1",
     "has": "^1.0.1",
-    "object.assign": "^4.0.4",
-    "rtl-css-js": "^1.7.0"
+    "object.assign": "^4.1.0",
+    "rtl-css-js": "^1.8.0"
   }
 }
