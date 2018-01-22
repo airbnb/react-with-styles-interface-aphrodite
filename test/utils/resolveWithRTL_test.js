@@ -180,4 +180,22 @@ describe('#resolveWithRTL', () => {
       },
     });
   });
+
+
+  it('style specificity', () => {
+    const styles = StyleSheet.create({
+      foo: {
+        marginLeft: 10,
+        float: 'right',
+      },
+
+      bar: {
+        margin: 0,
+        float: 'none',
+      },
+    });
+
+    expect(resolveWithRTL(css, [styles.foo, styles.bar]))
+      .to.eql({ className: 'foo_mzo4yj-o_O-bar_1v47723' });
+  });
 });
