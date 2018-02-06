@@ -1,10 +1,9 @@
 import { expect } from 'chai';
 import { StyleSheetTestUtils, StyleSheet, css } from 'aphrodite';
 
-import resolveWithRTL from '../../src/utils/resolveWithRTL';
-import resolve from '../../src/utils/resolve';
+import resolveRTL from '../../src/utils/resolveRTL';
 
-describe('#resolve', () => {
+describe('#resolveRTL', () => {
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
@@ -20,7 +19,7 @@ describe('#resolve', () => {
       },
     });
 
-    expect(resolve(css, [styles.foo]))
+    expect(resolveRTL(css, [styles.foo]))
       .to.eql({ className: 'foo_137u7ef' });
   });
 
@@ -35,23 +34,29 @@ describe('#resolve', () => {
       },
     });
 
-    expect(resolve(css, [styles.foo, styles.bar]))
+    expect(resolveRTL(css, [styles.foo, styles.bar]))
       .to.eql({ className: 'foo_137u7ef-o_O-bar_36rlri' });
   });
 
   it('handles an object with inline styles', () => {
     const style = {
       color: 'red',
-      marginLeft: 10,
     };
 
-    expect(resolve(css, [style]))
+    expect(resolveRTL(css, [style]))
       .to.eql({
         style: {
           color: 'red',
-          marginLeft: 10,
         },
       });
+  });
+
+  it('flips inline styles', () => {
+    const style = {
+      marginLeft: 10,
+    };
+
+    expect(resolveRTL(css, [style])).to.eql({ style: { marginRight: 10 } });
   });
 
   it('handles multiple objects with inline styles', () => {
@@ -63,7 +68,7 @@ describe('#resolve', () => {
       display: 'inline-block',
     };
 
-    expect(resolve(css, [styleA, styleB]))
+    expect(resolveRTL(css, [styleA, styleB]))
       .to.eql({
         style: {
           color: 'red',
@@ -81,7 +86,7 @@ describe('#resolve', () => {
       color: 'blue',
     };
 
-    expect(resolve(css, [styleA, styleB]))
+    expect(resolveRTL(css, [styleA, styleB]))
       .to.eql({
         style: {
           color: 'blue',
@@ -100,7 +105,7 @@ describe('#resolve', () => {
       display: 'inline-block',
     };
 
-    expect(resolve(css, [styles.foo, style]))
+    expect(resolveRTL(css, [styles.foo, style]))
       .to.eql({
         className: 'foo_137u7ef',
         style: {
@@ -124,7 +129,7 @@ describe('#resolve', () => {
       padding: 1,
     };
 
-    expect(resolve(css, [[styles.foo], [[styleA, styleB]]]))
+    expect(resolveRTL(css, [[styles.foo], [[styleA, styleB]]]))
       .to.eql({
         className: 'foo_137u7ef',
         style: {
@@ -141,29 +146,11 @@ describe('#resolve', () => {
       },
     });
 
-    resolve(css, [styles.container]);
+    resolveRTL(css, [styles.container]);
     const definition = { ...styles.container._definition };
 
-    resolve(css, [styles.container]);
+    resolveRTL(css, [styles.container]);
     const newDefinition = styles.container._definition;
     expect(definition).to.eql(newDefinition);
-  });
-
-  it('style definition is as expected even after calling resolveWithRTL', () => {
-    const styles = StyleSheet.create({
-      container: {
-        textAlign: 'left',
-      },
-    });
-
-    resolveWithRTL(css, [styles.container]);
-    const oldDefinition = { ...styles.container._definition };
-
-    resolve(css, [styles.container]);
-    const definition = styles.container._definition;
-    expect(definition).to.not.eql(oldDefinition);
-    expect(definition).to.eql({
-      textAlign: 'left',
-    });
   });
 });

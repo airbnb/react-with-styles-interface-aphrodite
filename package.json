@@ -63,12 +63,14 @@
     "sinon-sandbox": "^1.0.2"
   },
   "peerDependencies": {
-    "aphrodite": ">=0.5.0"
+    "aphrodite": ">=0.5.0",
+    "react-with-styles": "^3.0.0"
   },
   "dependencies": {
     "array-flatten": "^2.1.1",
     "has": "^1.0.1",
     "object.assign": "^4.1.0",
+    "object.entries": "^1.0.4",
     "rtl-css-js": "^1.8.0"
   }
 }

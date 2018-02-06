@@ -1,13 +1,9 @@
 import { expect } from 'chai';
-import aphrodite from 'aphrodite';
+import { StyleSheetTestUtils, StyleSheet, css } from 'aphrodite';
 
-import withRTLExtension from '../../src/utils/withRTLExtension';
-import resolve from '../../src/utils/resolve';
-import resolveWithRTL from '../../src/utils/resolveWithRTL';
+import resolveLTR from '../../src/utils/resolveLTR';
 
-const { StyleSheetTestUtils, StyleSheet, css } = withRTLExtension(aphrodite);
-
-describe('#resolveWithRTL', () => {
+describe('#resolveLTR', () => {
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
   });
@@ -23,7 +19,7 @@ describe('#resolveWithRTL', () => {
       },
     });
 
-    expect(resolveWithRTL(css, [styles.foo]))
+    expect(resolveLTR(css, [styles.foo]))
       .to.eql({ className: 'foo_137u7ef' });
   });
 
@@ -38,29 +34,23 @@ describe('#resolveWithRTL', () => {
       },
     });
 
-    expect(resolveWithRTL(css, [styles.foo, styles.bar]))
+    expect(resolveLTR(css, [styles.foo, styles.bar]))
       .to.eql({ className: 'foo_137u7ef-o_O-bar_36rlri' });
   });
 
   it('handles an object with inline styles', () => {
     const style = {
       color: 'red',
-    };
-
-    expect(resolveWithRTL(css, [style]))
-      .to.eql({
-        style: {
-          color: 'red',
-        },
-      });
-  });
-
-  it('converts inline styles to a className if RTL flippable', () => {
-    const style = {
       marginLeft: 10,
     };
 
-    expect(resolveWithRTL(css, [style])).to.eql({ className: 'inlineStyles_1c0b5pw' });
+    expect(resolveLTR(css, [style]))
+      .to.eql({
+        style: {
+          color: 'red',
+          marginLeft: 10,
+        },
+      });
   });
 
   it('handles multiple objects with inline styles', () => {
@@ -72,7 +62,7 @@ describe('#resolveWithRTL', () => {
       display: 'inline-block',
     };
 
-    expect(resolveWithRTL(css, [styleA, styleB]))
+    expect(resolveLTR(css, [styleA, styleB]))
       .to.eql({
         style: {
           color: 'red',
@@ -90,7 +80,7 @@ describe('#resolveWithRTL', () => {
       color: 'blue',
     };
 
-    expect(resolveWithRTL(css, [styleA, styleB]))
+    expect(resolveLTR(css, [styleA, styleB]))
       .to.eql({
         style: {
           color: 'blue',
@@ -109,7 +99,7 @@ describe('#resolveWithRTL', () => {
       display: 'inline-block',
     };
 
-    expect(resolveWithRTL(css, [styles.foo, style]))
+    expect(resolveLTR(css, [styles.foo, style]))
       .to.eql({
         className: 'foo_137u7ef',
         style: {
@@ -133,7 +123,7 @@ describe('#resolveWithRTL', () => {
       padding: 1,
     };
 
-    expect(resolveWithRTL(css, [[styles.foo], [[styleA, styleB]]]))
+    expect(resolveLTR(css, [[styles.foo], [[styleA, styleB]]]))
       .to.eql({
         className: 'foo_137u7ef',
         style: {
@@ -150,34 +140,11 @@ describe('#resolveWithRTL', () => {
       },
     });
 
-    resolveWithRTL(css, [styles.container]);
+    resolveLTR(css, [styles.container]);
     const definition = { ...styles.container._definition };
 
-    resolveWithRTL(css, [styles.container]);
+    resolveLTR(css, [styles.container]);
     const newDefinition = styles.container._definition;
     expect(definition).to.eql(newDefinition);
-  });
-
-  it('style definition is as expected even after calling resolveWithRTL', () => {
-    const styles = StyleSheet.create({
-      container: {
-        textAlign: 'left',
-      },
-    });
-
-    resolve(css, [styles.container]);
-    const oldDefinition = { ...styles.container._definition };
-
-    resolveWithRTL(css, [styles.container]);
-    const definition = styles.container._definition;
-    expect(definition).to.not.eql(oldDefinition);
-    expect(definition).to.eql({
-      _ltr: {
-        textAlign: 'left',
-      },
-      _rtl: {
-        textAlign: 'right',
-      },
-    });
   });
 });
