@@ -15,8 +15,11 @@ describe('aphroditeInterface', () => {
 
   it('is an interface', () => {
     expect(typeof aphroditeInterface.create).to.equal('function');
+    expect(typeof aphroditeInterface.createLTR).to.equal('function');
+    expect(typeof aphroditeInterface.createRTL).to.equal('function');
     expect(typeof aphroditeInterface.resolve).to.equal('function');
-    expect(typeof aphroditeInterface.resolveNoRTL).to.equal('function');
+    expect(typeof aphroditeInterface.resolveLTR).to.equal('function');
+    expect(typeof aphroditeInterface.resolveRTL).to.equal('function');
   });
 
   it('uses !important', () => {

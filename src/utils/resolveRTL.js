@@ -1,27 +1,20 @@
-/* eslint-disable no-param-reassign */
 import { from as flatten } from 'array-flatten';
+import rtlCSSJS from 'rtl-css-js';
 
 import separateStyles from './separateStyles';
 
-function resetStyleDefinition(stylesObj) {
-  if (stylesObj.noRTL) {
-    stylesObj._definition = stylesObj.noRTL;
-  }
-  return stylesObj;
-}
-
 // Styles is an array of properties returned by `create()`, a POJO, or an
 // array thereof. POJOs are treated as inline styles. This version of the
-// resolve function explicitly does no work to flip styles for an RTL context.
+// resolve function explicitly flips inline styles for an RTL context.
 // This function returns an object to be spread onto an element.
-export default function resolve(css, styles) {
+export default function resolveRTL(css, styles) {
   const flattenedStyles = flatten(styles);
 
   const {
     aphroditeStyles,
     hasInlineStyles,
     inlineStyles,
-  } = separateStyles(flattenedStyles, resetStyleDefinition);
+  } = separateStyles(flattenedStyles);
 
   const result = {};
   if (aphroditeStyles.length > 0) {
@@ -29,7 +22,7 @@ export default function resolve(css, styles) {
   }
 
   if (hasInlineStyles) {
-    result.style = inlineStyles;
+    result.style = rtlCSSJS(inlineStyles);
   }
 
   return result;

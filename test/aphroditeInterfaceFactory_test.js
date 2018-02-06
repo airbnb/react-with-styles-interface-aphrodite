@@ -3,16 +3,19 @@ import sinon from 'sinon-sandbox';
 import aphrodite from 'aphrodite';
 import aphroditeInterfaceFactory from '../src/aphroditeInterfaceFactory';
 
-import * as resolve from '../src/utils/resolve';
+import * as resolveLTR from '../src/utils/resolveLTR';
+import * as resolveRTL from '../src/utils/resolveRTL';
 
 describe('aphroditeInterfaceFactory', () => {
   const { StyleSheetTestUtils } = aphrodite;
   const aphroditeInterface = aphroditeInterfaceFactory(aphrodite);
-  let resolveSpy;
+  let resolveLTRSpy;
+  let resolveRTLSpy;
 
   beforeEach(() => {
     StyleSheetTestUtils.suppressStyleInjection();
-    resolveSpy = sinon.spy(resolve, 'default');
+    resolveLTRSpy = sinon.spy(resolveLTR, 'default');
+    resolveRTLSpy = sinon.spy(resolveRTL, 'default');
   });
 
   afterEach(() => {
@@ -38,17 +41,60 @@ describe('aphroditeInterfaceFactory', () => {
     });
   });
 
-  describe('.resolve()', () => {
-    it('calls resolve method', () => {
-      aphroditeInterface.resolve([]);
-      expect(resolveSpy.callCount).to.equal(1);
+  describe('.createLTR()', () => {
+    it('processes the styles with Aphrodite', () => {
+      expect(aphroditeInterface.createLTR({
+        foo: {
+          left: 10,
+        },
+      })).to.eql({
+        foo: {
+          _definition: {
+            left: 10,
+          },
+          _len: 11,
+          _name: 'foo_lg4jz7',
+        },
+      });
     });
   });
 
-  describe('.resolveNoRTL()', () => {
-    it('calls resolve method', () => {
-      aphroditeInterface.resolveNoRTL([]);
-      expect(resolveSpy.callCount).to.equal(1);
+  describe('.createRTL()', () => {
+    it('processes the styles with Aphrodite', () => {
+      expect(aphroditeInterface.createRTL({
+        foo: {
+          left: 10,
+        },
+      })).to.eql({
+        foo: {
+          _definition: {
+            right: 10,
+          },
+          _len: 12,
+          _name: 'foo_6eoou0',
+        },
+      });
+    });
+  });
+
+  describe('.resolve()', () => {
+    it('calls resolveLTR method', () => {
+      aphroditeInterface.resolve([]);
+      expect(resolveLTRSpy.callCount).to.equal(1);
+    });
+  });
+
+  describe('.resolveLTR()', () => {
+    it('calls resolveLTR method', () => {
+      aphroditeInterface.resolveLTR([]);
+      expect(resolveLTRSpy.callCount).to.equal(1);
+    });
+  });
+
+  describe('.resolveRTL()', () => {
+    it('calls resolveRTL method', () => {
+      aphroditeInterface.resolveRTL([]);
+      expect(resolveRTLSpy.callCount).to.equal(1);
     });
   });
 });
