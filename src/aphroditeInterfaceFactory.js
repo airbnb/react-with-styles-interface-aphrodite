@@ -7,7 +7,7 @@ import resolveRTL from './utils/resolveRTL';
 
 export default ({ StyleSheet, css }/* aphrodite */) => ({
   create(styleHash) {
-    return this.createLTR(styleHash);
+    return StyleSheet.create(styleHash);
   },
 
   createLTR(styleHash) {
@@ -24,7 +24,7 @@ export default ({ StyleSheet, css }/* aphrodite */) => ({
   },
 
   resolve(styles) {
-    return this.resolveLTR(styles);
+    return resolveLTR(css, styles);
   },
 
   resolveLTR(styles) {
