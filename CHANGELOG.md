@@ -1,3 +1,6 @@
+## v4.0.1
+- Fix `this` reference in create and resolve methods
+
 ## v4.0.0
 - Remove with-rtl interface in favor of separate LTR/RTL create and resolve methods
 
