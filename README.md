@@ -39,28 +39,24 @@ or when you need to [disable `!important`](https://github.com/Khan/aphrodite#dis
 import aphroditeInterface from 'react-with-styles-interface-aphrodite/no-important';
 ```
 
-or when you want to support automatic style flipping for an RTL (right-to-left) language page
-
-```js
-import aphroditeInterface from 'react-with-styles-interface-aphrodite/with-rtl';
-```
-
 ## Built-in RTL support
 
-`react-with-styles-interface-aphrodite` now has built-in LTR/RTL context support in its `with-rtl` version. Specifically, it uses [rtl-css-js](https://github.com/kentcdodds/rtl-css-js) to automatically flip styles (`margin`, `padding`, `float`, `textAlign`, etc.) that were written for an LTR page when the `dir="rtl"` attribute is applied. We recommend using [react-with-direction](https://github.com/airbnb/react-with-direction)'s `DirectionProvider` at your top-level node to achieve best results.
+`react-with-styles-interface-aphrodite` has built-in LTR/RTL context support. Specifically, it uses [rtl-css-js](https://github.com/kentcdodds/rtl-css-js) to automatically flip styles (`margin`, `padding`, `float`, `textAlign`, etc.) that were written for an LTR page when your app is wrapped in [react-with-direction](https://github.com/airbnb/react-with-direction)'s `DirectionProvider` with direction set to `DIRECTIONS.RTL`. 
+
+It accomplishes this by providing a directional `create` and `resolve` method. `react-with-styles` automatically uses the correct create method based on the direction value set in context and then passes down the appropriate `resolve` method as a prop named `css`.
 
 For instance, if you were to write your styles as follows:
 
 ```jsx
 import ThemedStyleSheet from 'react-with-styles/lib/ThemedStyleSheet';
-import aphroditeInterfaceWithRTL from 'react-with-styles-interface-aphrodite/with-rtl';
+import aphroditeInterface from 'react-with-styles-interface-aphrodite';
 import { withStyles, css } from 'react-with-styles';
 
-ThemedStyleSheet.registerInterface(aphroditeInterfaceWithRTL);
+ThemedStyleSheet.registerInterface(aphroditeInterface);
 
 ...
 
-function MyComponent() {
+function MyComponent({ css }) {
   return <div {...css(styles.container)}>Hello World</div>;
 }
 
@@ -72,19 +68,20 @@ export default withStyles(() => ({
 }))(MyComponent);
 ```
 
-The generated css would look like:
+The generated css for an app where you set `<DirectionProvider direction={DIRECTIONS.LTR}>` at the top would look like:
 
 ```css
 .container_r5r4of {
   background: #fff !important;
+  float: 'left' !important;
 }
+```
 
-[dir="ltr"] .container_r5r4of {
-  float: left !important;
-}
-
-[dir="rtl"] .container_r5r4of {
-  float: right !important;
+whereas if you had set `<DirectionProvider direction={DIRECTIONS.RTL}>`, the generated css would be:
+```css
+.container_kui6s4 {
+  background: #fff !important;
+  float: 'right' !important;
 }
 ```
 
@@ -98,22 +95,4 @@ export default function MyComponent() {
 }
 ```
 
-In the default case, this would map to a `style={{ background: '#fff', float: 'left' }}` on the div
-in question. However, in the withRTL case, we would convert these styles into a unique classname
-(`inlineStyles_emgbm1` in this instance) and generate the following css instead:
-
-```css
-.inlineStyles_emgbm1 {
-  background: #fff !important;
-}
-
-[dir="ltr"] .inlineStyles_emgbm1 {
-  float: left !important;
-}
-
-[dir="rtl"] .inlineStyles_emgbm1 {
-  float: right !important;
-}
-```
-
-This behavior is due to some details of what is known at the time of style creation/resolution. Because of this, inline styles will always be converted to classnames when there is a flippable style. This may be slower than the default implementation and may be a poor choice if you are attempting to animate something using JS. If you do not want this behavior or if this behavior breaks your usage, `react-with-styles-interface-aphrodite/with-rtl` also exports a `resolveNoRTL` method which is exported by `react-with-styles` as `cssNoRTL`. `cssNoRTL` matches the behavior in the default implementation (no automatic style flipping).
+In the case where `<DirectionProvider direction={DIRECTIONS.LTR}>` is wrapping your component, this would map to a `style={{ background: '#fff', float: 'left' }}` on the div in question. If `<DirectionProvider direction={DIRECTIONS.RTL}>` is present instead, this would simply apply `style={{ background: '#fff', float: 'right' }}` to the div.
