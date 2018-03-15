@@ -1,4 +1,7 @@
-import aphrodite from 'aphrodite/no-important';
+import { StyleSheet, css } from 'aphrodite/no-important';
 import aphroditeInterfaceFactory from './aphroditeInterfaceFactory';
 
-export default aphroditeInterfaceFactory(aphrodite);
+export default aphroditeInterfaceFactory({
+  StyleSheet,
+  css,
+});

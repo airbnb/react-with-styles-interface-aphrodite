@@ -1,14 +1,29 @@
 import { expect } from 'chai';
 import sinon from 'sinon-sandbox';
-import aphrodite from 'aphrodite';
+import { StyleSheet, css, StyleSheetTestUtils } from 'aphrodite';
 import aphroditeInterfaceFactory from '../src/aphroditeInterfaceFactory';
 
 import * as resolveLTR from '../src/utils/resolveLTR';
 import * as resolveRTL from '../src/utils/resolveRTL';
 
+let flushToStyleTag;
+try {
+  // Aphrodite 1
+  // eslint-disable-next-line import/no-unresolved, global-require, prefer-destructuring
+  flushToStyleTag = require('aphrodite/lib/inject').flushToStyleTag;
+} catch (e) {
+  // Aphrodite 2
+  // eslint-disable-next-line import/no-unresolved, global-require, prefer-destructuring
+  flushToStyleTag = require('aphrodite').flushToStyleTag;
+}
+
 describe('aphroditeInterfaceFactory', () => {
-  const { StyleSheetTestUtils } = aphrodite;
-  const aphroditeInterface = aphroditeInterfaceFactory(aphrodite);
+  const aphroditeInterface = aphroditeInterfaceFactory({
+    StyleSheet,
+    css,
+    flushToStyleTag,
+  });
+
   let resolveLTRSpy;
   let resolveRTLSpy;
 
