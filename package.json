@@ -41,7 +41,7 @@
   "homepage": "https://github.com/airbnb/react-with-styles-interface-aphrodite#readme",
   "devDependencies": {
     "airbnb-js-shims": "^1.4.0",
-    "aphrodite": "^1.2.5",
+    "aphrodite": "^2.0.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-replace-object-assign": "^0.2.1",
     "babel-preset-airbnb": "^2.4.0",
