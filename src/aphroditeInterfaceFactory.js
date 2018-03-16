@@ -1,9 +1,19 @@
-import { flushToStyleTag } from 'aphrodite/lib/inject';
 import rtlCSSJS from 'rtl-css-js';
 import entries from 'object.entries';
 
 import resolveLTR from './utils/resolveLTR';
 import resolveRTL from './utils/resolveRTL';
+
+let flushToStyleTag;
+try {
+  // Aphrodite 1
+  // eslint-disable-next-line import/no-unresolved, global-require, prefer-destructuring
+  flushToStyleTag = require('aphrodite/lib/inject').flushToStyleTag;
+} catch (e) {
+  // Aphrodite 2
+  // eslint-disable-next-line import/no-unresolved, global-require, prefer-destructuring
+  flushToStyleTag = require('aphrodite').flushToStyleTag;
+}
 
 export default ({ StyleSheet, css }/* aphrodite */) => ({
   create(styleHash) {
