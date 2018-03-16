@@ -1,3 +1,7 @@
+## v5.0.0
+
+- Remove support for Aphrodite v1 and earlier
+
 ## v4.0.2
 
 - Add support for Aphrodite v2
