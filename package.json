@@ -68,9 +68,9 @@
   },
   "dependencies": {
     "array-flatten": "^2.1.1",
-    "has": "^1.0.1",
+    "has": "^1.0.3",
     "object.assign": "^4.1.0",
     "object.entries": "^1.0.4",
-    "rtl-css-js": "^1.8.0"
+    "rtl-css-js": "^1.10.0"
   }
 }
