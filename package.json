@@ -60,7 +60,7 @@
     "rimraf": "^2.6.2",
     "safe-publish-latest": "^1.1.1",
     "sinon": "^5.0.10",
-    "sinon-sandbox": "^1.0.2"
+    "sinon-sandbox": "^2.0.0"
   },
   "peerDependencies": {
     "aphrodite": "^2.1.0",
