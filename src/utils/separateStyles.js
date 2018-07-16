@@ -22,10 +22,7 @@ export default function separateStyles(stylesArray) {
     //
     //   css(isFoo && styles.foo)
     if (style) {
-      if (
-        has(style, '_name') &&
-        has(style, '_definition')
-      ) {
+      if (has(style, '_name') && has(style, '_definition')) {
         aphroditeStyles.push(style);
       } else {
         Object.assign(inlineStyles, style);

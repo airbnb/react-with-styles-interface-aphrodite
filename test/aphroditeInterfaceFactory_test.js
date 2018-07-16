@@ -1,6 +1,11 @@
 import { expect } from 'chai';
 import sinon from 'sinon-sandbox';
-import { StyleSheet, css, flushToStyleTag, StyleSheetTestUtils } from 'aphrodite';
+import {
+  StyleSheet,
+  css,
+  flushToStyleTag,
+  StyleSheetTestUtils,
+} from 'aphrodite';
 import aphroditeInterfaceFactory from '../src/aphroditeInterfaceFactory';
 
 import * as resolveLTR from '../src/utils/resolveLTR';
