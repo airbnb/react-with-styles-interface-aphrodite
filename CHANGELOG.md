@@ -1,3 +1,9 @@
+## v5.0.1
+
+- [Deps] Replace `array-flatten` with `array.prototype.flat`
+- [Deps] Update `has` and `rtl-css-js`
+- [Dev] Update devDependencies
+
 ## v5.0.0
 
 - Remove support for Aphrodite v1 and earlier
