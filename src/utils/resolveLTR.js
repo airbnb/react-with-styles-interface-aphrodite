@@ -1,4 +1,4 @@
-import { from as flatten } from 'array-flatten';
+import flat from 'array.prototype.flat';
 
 import separateStyles from './separateStyles';
 
@@ -7,7 +7,7 @@ import separateStyles from './separateStyles';
 // resolve function explicitly does no work to flip styles for an RTL context.
 // This function returns an object to be spread onto an element.
 export default function resolveLTR(css, styles) {
-  const flattenedStyles = flatten(styles);
+  const flattenedStyles = flat(styles, Infinity);
 
   const {
     aphroditeStyles,

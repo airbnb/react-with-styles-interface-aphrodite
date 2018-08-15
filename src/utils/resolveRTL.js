@@ -1,4 +1,4 @@
-import { from as flatten } from 'array-flatten';
+import flat from 'array.prototype.flat';
 import rtlCSSJS from 'rtl-css-js';
 
 import separateStyles from './separateStyles';
@@ -8,7 +8,7 @@ import separateStyles from './separateStyles';
 // resolve function explicitly flips inline styles for an RTL context.
 // This function returns an object to be spread onto an element.
 export default function resolveRTL(css, styles) {
-  const flattenedStyles = flatten(styles);
+  const flattenedStyles = flat(styles, Infinity);
 
   const {
     aphroditeStyles,
