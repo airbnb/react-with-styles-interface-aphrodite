@@ -67,7 +67,7 @@
     "react-with-styles": "^3.0.0"
   },
   "dependencies": {
-    "array-flatten": "^2.1.1",
+    "array.prototype.flat": "^1.2.1",
     "has": "^1.0.3",
     "object.assign": "^4.1.0",
     "object.entries": "^1.0.4",
