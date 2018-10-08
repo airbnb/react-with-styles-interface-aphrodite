@@ -44,7 +44,7 @@
     "aphrodite": "^2.2.2",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-replace-object-assign": "^1.0.0",
-    "babel-preset-airbnb": "^2.5.2",
+    "babel-preset-airbnb": "^3.0.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "eslint": "^4.19.1",
