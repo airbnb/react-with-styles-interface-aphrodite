@@ -70,7 +70,7 @@
     "array.prototype.flat": "^1.2.1",
     "has": "^1.0.3",
     "object.assign": "^4.1.0",
-    "object.entries": "^1.0.4",
-    "rtl-css-js": "^1.10.0"
+    "object.entries": "^1.1.0",
+    "rtl-css-js": "^1.11.0"
   }
 }
