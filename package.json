@@ -40,27 +40,28 @@
   },
   "homepage": "https://github.com/airbnb/react-with-styles-interface-aphrodite#readme",
   "devDependencies": {
-    "airbnb-js-shims": "^2.1.1",
-    "aphrodite": "^2.1.0",
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-replace-object-assign": "^1.0.0",
-    "babel-preset-airbnb": "^2.5.2",
-    "babel-register": "^6.26.0",
-    "chai": "^4.1.2",
-    "eslint": "^5.13.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.12.4",
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/register": "^7.5.5",
+    "airbnb-js-shims": "^2.2.0",
+    "aphrodite": "^2.3.1",
+    "babel-plugin-transform-replace-object-assign": "^2.0.0",
+    "babel-preset-airbnb": "^4.0.1",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
     "in-publish": "^2.0.0",
     "mocha": "^5.2.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "rimraf": "^2.6.3",
     "safe-publish-latest": "^1.1.2",
     "sinon": "^6.3.5",
-    "sinon-sandbox": "^2.0.0"
+    "sinon-sandbox": "^2.0.5"
   },
   "peerDependencies": {
     "aphrodite": "^2.1.0",
@@ -71,6 +72,6 @@
     "has": "^1.0.3",
     "object.assign": "^4.1.0",
     "object.entries": "^1.1.0",
-    "rtl-css-js": "^1.11.0"
+    "rtl-css-js": "^1.13.0"
   }
 }
