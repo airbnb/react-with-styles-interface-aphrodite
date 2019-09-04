@@ -65,7 +65,7 @@
   },
   "peerDependencies": {
     "aphrodite": "^2.1.0",
-    "react-with-styles": "^3.0.0"
+    "react-with-styles": "^3.0.0 || ^4.0.0"
   },
   "dependencies": {
     "array.prototype.flat": "^1.2.1",
