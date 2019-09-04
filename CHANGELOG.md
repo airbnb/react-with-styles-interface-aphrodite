@@ -1,3 +1,12 @@
+# Changelog
+
+## v6.0.0
+
+- [Deps] Include `react-with-styles v4.0.0` in peer deps
+- [breaking] [Dev Deps] Update `@babel*`, `airbnb-js-shims`, `aphrodite`, `babel-plugin-transform-replace-object-assign`, `babel-preset-airbnb`, `chai`, `eslint*`, `prop-types`, `react`, `react-dom`, `sinon-sandbox` and drop support for node < 6
+- [Deps] update `object.entries`, `rtl-css-js`
+- [Dev Deps] update `eslint`, `eslint-config-airbnb`, `eslint-plugin-import`, `eslint-plugin-jsx-a11y`, `eslint-plugin-react`, `rimraf`, `safe-publish-latest`, `airbnb-js-shims`
+
 ## v5.0.1
 
 - [Deps] Replace `array-flatten` with `array.prototype.flat`
