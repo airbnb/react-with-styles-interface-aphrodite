@@ -1,5 +1,9 @@
 # Changelog
 
+## v6.0.1
+
+- [fix] Update rtl-css-js ^1.13.0 -> ^1.13.1
+
 ## v6.0.0
 
 - [Deps] Include `react-with-styles v4.0.0` in peer deps
