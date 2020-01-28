@@ -58,7 +58,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.1",
     "safe-publish-latest": "^1.1.2",
     "sinon": "^6.3.5",
     "sinon-sandbox": "^2.0.5"
