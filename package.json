@@ -42,7 +42,7 @@
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
-    "@babel/register": "^7.5.5",
+    "@babel/register": "^7.9.0",
     "airbnb-js-shims": "^2.2.0",
     "aphrodite": "^2.3.1",
     "babel-plugin-transform-replace-object-assign": "^2.0.0",
