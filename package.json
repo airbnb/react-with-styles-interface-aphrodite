@@ -40,7 +40,7 @@
   },
   "homepage": "https://github.com/airbnb/react-with-styles-interface-aphrodite#readme",
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.5.5",
     "@babel/register": "^7.5.5",
     "airbnb-js-shims": "^2.2.0",
